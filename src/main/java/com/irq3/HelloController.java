@@ -9,6 +9,6 @@ public class HelloController {
 
     @Get(produces = MediaType.TEXT_HTML)
     public String heyo(){
-        return "Heyo";
+        return "Heyo, website is not ready!";
     }
 }
