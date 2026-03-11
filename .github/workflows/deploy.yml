@@ -5,7 +5,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin' # Najbardziej stabilna dystrybucja
+        cache: 'gradle'        # Opcjonalne: przyspieszy kolejne buildy
     - run: ./gradlew assemble
+    - run: chmod +rwx test_app-0.1-all-optimized.jar'
     - name: Deploy with Password
       uses: wlixcc/SFTP-Deploy-Action@v1.2.6
       with:
