@@ -1,0 +1,27 @@
+name: website_backend_deploy
+on: [push]
+jobs:
+  pushToWebsite:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: ./gradlew assemble
+    - name: Deploy with Password
+      uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+      with:
+        username: ${{ secrets.FTP_USERNAME }}
+        server: ${{ secrets.FTP_SERVER }}
+        port: ${{ secrets.FTP_PORT }}
+        local_path: 'build/libs/test_app-0.1-all-optimized.jar'
+        remote_path: '/home/frog/javka/export'
+        sftp_only: true
+        password: ${{ secrets.FTP_PASSWORD }}
+
+    - name: Run it
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: sudo service server restart
