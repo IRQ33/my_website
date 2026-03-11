@@ -9,10 +9,9 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: '21'
-        distribution: 'temurin' # Najbardziej stabilna dystrybucja
-        cache: 'gradle'        # Opcjonalne: przyspieszy kolejne buildy
-    - run: ./gradlew assemble
-    - run: chmod +rwx test_app-0.1-all-optimized.jar'
+        distribution: 'temurin'
+        cache: 'gradle'
+    - run: ./gradlew assemble --no-daemon
     - name: Deploy with Password
       uses: wlixcc/SFTP-Deploy-Action@v1.2.6
       with:
