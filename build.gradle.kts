@@ -24,7 +24,7 @@ dependencies {
     testImplementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut.security:micronaut-security-annotations")
     implementation("io.micronaut.security:micronaut-security-jwt")
-
+    implementation("io.micronaut.configuration:micronaut-hibernate-jpa")
 }
 
 

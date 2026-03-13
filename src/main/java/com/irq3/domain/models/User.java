@@ -1,6 +1,9 @@
-package com.irq3.models;
+package com.irq3.domain.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.irq3.infrastructure.security.Bcrypt;
+import com.irq3.infrastructure.security.EnvController;
 import io.micronaut.data.annotation.GeneratedValue;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
@@ -16,7 +19,9 @@ public class User {
     @GeneratedValue(GeneratedValue.Type.AUTO)
     private long id;
     private String name;
+    @JsonIgnore
     private String email;
+    @JsonIgnore
     private String password;
     private LocalDateTime dateCreated;
     private boolean mute = false;
@@ -36,7 +41,13 @@ public class User {
         return user;
     }
 
-
+    public void hashPassword(){
+        String password = Bcrypt.hashpw(this.getPassword(),EnvController.getEnvValue("password"));
+        this.setPassword(password);
+    }
+    public boolean checkPassword(String password){
+        return Bcrypt.checkpw(password,this.getPassword());
+    }
 
     public boolean isMute() {
         return mute;
